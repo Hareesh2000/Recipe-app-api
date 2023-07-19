@@ -1,2 +1,2 @@
-# Recipe-app-api
-Recipe API project.
+# food-recipes
+Food-Recipes API project.
