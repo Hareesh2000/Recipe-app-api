@@ -33,9 +33,11 @@ def detail_url(recipe_id):
     """Create and return a recipe detail URL."""
     return reverse('recipe:recipe-detail', args=[recipe_id])
 
+
 def image_upload_url(recipe_id):
     """Create and return an image upload URL."""
     return reverse('recipe:recipe-upload-image', args=[recipe_id])
+
 
 def create_recipe(user, **params):
     """Create and return a sample recipe"""
@@ -318,7 +320,8 @@ class PrivateRecipeApiTests(TestCase):
 
     def test_create_recipe_with_existing_ingredients(self):
         """Test creating recipe with existing ingredients."""
-        ingredient_garlic = Ingredient.objects.create(user=self.user, name='Garlic')
+        ingredient_garlic = Ingredient.objects.create(
+            user=self.user, name='Garlic')
         payload = {
             'title': 'Italian Pizza',
             'time_minutes': 40,
@@ -348,16 +351,19 @@ class PrivateRecipeApiTests(TestCase):
         res = self.client.patch(url, payload, format='json')
 
         self.assertEqual(res.status_code, status.HTTP_200_OK)
-        new_ingredient = Ingredient.objects.get(user=self.user, name='Spinach')
+        new_ingredient = Ingredient.objects.get(
+            user=self.user, name='Spinach')
         self.assertIn(new_ingredient, recipe.ingredients.all())
 
     def test_update_ingredient_on_recipe_update(self):
         """Test assigning existing ingredient on updating recipe ingredient"""
-        ingredient_salt = Ingredient.objects.create(user=self.user, name='Salt')
+        ingredient_salt = Ingredient.objects.create(
+            user=self.user, name='Salt')
         recipe = create_recipe(user=self.user)
         recipe.ingredients.add(ingredient_salt)
 
-        ingredient_garlic = Ingredient.objects.create(user=self.user, name='Garlic')
+        ingredient_garlic = Ingredient.objects.create(
+            user=self.user, name='Garlic')
         payload = {'ingredients': [{'name': 'Garlic'}]}
         url = detail_url(recipe.id)
         res = self.client.patch(url, payload, format='json')
@@ -368,7 +374,8 @@ class PrivateRecipeApiTests(TestCase):
 
     def test_clear_recipe_ingredients(self):
         """Test clearing a recipes ingredients."""
-        ingredient_bread = Ingredient.objects.create(user=self.user, name='Bread')
+        ingredient_bread = Ingredient.objects.create(
+            user=self.user, name='Bread')
         recipe = create_recipe(user=self.user)
         recipe.ingredients.add(ingredient_bread)
 
